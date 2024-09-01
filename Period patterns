@@ -1,22 +1,22 @@
 import re
 
-# Define the patterns
+# Define the refined patterns
 patterns = [
-    r"\b(?:[A-Za-z]+\s+\d{1,2},\s*\d{4})\s*(?:to|through|-)?.*?\b(?:[A-Za-z]+\s+\d{1,2},\s*\d{4})?",
-    r"\b(?:Year\s+to\s+date|Q\d\s+\d{4}|\d{4}\s*(?:-|to)?\s*(?:actual)?)\b",
-    r"\b(?:[A-Za-z]{3,9})\s*\d{4}\b\s*(?:to|through|-)?.*?(?:[A-Za-z]{3,9})?\s*\d{4}?",
-    r"\b(?:[A-Za-z]{3,9})\s*(?:\d{2,4})\b\s*(?:-|to|through)?.*?(?:[A-Za-z]{3,9})?\s*(?:\d{2,4})?",
-    r"\b(?:Period\s*=|For\s+the\s+period\s+end(?:ing)?|As\s+of)\s*(\w+\s*\d{1,2},?\s*\d{2,4})?",
+    r"\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},\s*(?:\d{4}|\d{2})\s*(?:to|through|-)?\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)?\s*\d{1,2},?\s*(?:\d{4}|\d{2})?\b",
+    r"\b(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s*(\d{2,4})\b\s*(?:to|through|-)?\s*(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)?\s*(\d{2,4})?",
+    r"\b(?:Period\s*=|For\s+the\s+period\s+end(?:ing)?|As\s+of)\s*(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s*(\d{2,4})?\b",
+    r"\b(?:Year\s+to\s+date\s+through\s+Q\d\s*\d{4}|\d{4}\s*(?:-|to)?\s*(?:actual)?)\b",
+    r"\b(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s+\d{1,2},?\s*(?:\d{4}|\d{2})\b",
     r"\b\d{1,2}/\d{1,2}/\d{4}\b"
 ]
 
-# Sample text from the PDF
+# Sample text to extract from
 text = """
 Year to date through Q2 2024
 Period = Jun 2024
-October 1,2022 to September 30,2023
+October 1, 2022 to September 30, 2023
 For the period endon Dec 31, 2022
-December 31.2022
+December 31, 2022
 As of Dec 2022
 July 2023 through June 2024
 Jul 2023 - Jun 2024
@@ -27,6 +27,7 @@ Period ending June 2024
 Jan 2024 to July 2024
 2023 - actual
 As of 6/30/2024
+November 2023 through April 2024
 """
 
 # Iterate over each pattern and apply it to the text
