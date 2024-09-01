@@ -1,14 +1,14 @@
 import re
 
-# Define the refined patterns
-patterns = [
-    r"\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},\s*(?:\d{4}|\d{2})\s*(?:to|through|-)?\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)?\s*\d{1,2},?\s*(?:\d{4}|\d{2})?\b",
-    r"\b(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s*(\d{2,4})\b\s*(?:to|through|-)?\s*(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)?\s*(\d{2,4})?",
-    r"\b(?:Period\s*=|For\s+the\s+period\s+end(?:ing)?|As\s+of)\s*(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s*(\d{2,4})?\b",
-    r"\b(?:Year\s+to\s+date\s+through\s+Q\d\s*\d{4}|\d{4}\s*(?:-|to)?\s*(?:actual)?)\b",
-    r"\b(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s+\d{1,2},?\s*(?:\d{4}|\d{2})\b",
-    r"\b\d{1,2}/\d{1,2}/\d{4}\b"
-]
+# Define the refined patterns along with their labels
+patterns = {
+    "Full Date Ranges (Month Day, Year to Month Day, Year)": r"\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},\s*(?:\d{4}|\d{2})\s*(?:to|through|-)?\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)?\s*\d{1,2},?\s*(?:\d{4}|\d{2})?\b",
+    "Month-Year or Month-Year Ranges": r"\b(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s+\d{2,4}\b\s*(?:to|through|-)?\s*(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)?\s*(\d{2,4})?",
+    "Specific Words ('Period', 'As of', etc.) with Month-Year": r"\b(?:Period\s*=|For\s+the\s+period\s+end(?:ing)?|As\s+of)\s+(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s+\d{2,4}\b",
+    "Year to Date or Specific Year Ranges": r"\b(?:Year\s+to\s+date\s+through\s+Q\d\s*\d{4}|\d{4}\s*(?:-|to)?\s*(?:actual)?)\b",
+    "Month-Day-Year Formats": r"\b(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s+\d{1,2},?\s*(?:\d{4}|\d{2})\b",
+    "MM/DD/YYYY Formats": r"\b\d{1,2}/\d{1,2}/\d{4}\b"
+}
 
 # Sample text to extract from
 text = """
@@ -31,7 +31,7 @@ November 2023 through April 2024
 """
 
 # Iterate over each pattern and apply it to the text
-for pattern in patterns:
+for label, pattern in patterns.items():
     matches = re.findall(pattern, text)
     if matches:
-        print(f"Matches for pattern '{pattern}': {matches}")
+        print(f"Matches for pattern '{label}': {matches}")
